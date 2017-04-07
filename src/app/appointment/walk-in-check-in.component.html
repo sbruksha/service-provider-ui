@@ -1,0 +1,79 @@
+<div class="card-centered-wrapper">
+
+  <form (ngSubmit)="onSubmit()" #appointmentForm="ngForm" class="ui form">
+    <md-card class="card-centered-600">
+    <md-card-title i18n>Check in walk-in client</md-card-title>
+      <md-card-content>
+
+      <h3 i18n="Section header for appointment form">Client</h3>
+       <div>
+          <md-input-container class="patient-input">
+             <input type="text" mdInput [formControl]="patientControl" [mdAutocomplete]="patientAuto" [(ngModel)]="model.client" required="true" name="client" i18n-placeholder placeholder="Client" >
+          </md-input-container>
+          <md-autocomplete #patientAuto="mdAutocomplete" [displayWith]="patientDisplayFn">
+            <md-option *ngFor="let client of filteredPatients | async" [value]="client">
+              {{ client?.givenName }}  {{ client?.surname }} ({{ client?.dateOfBirth | amDateFormat:'l' }})
+            </md-option>
+          </md-autocomplete>
+        </div>
+
+        <h3 i18n="Section header for appointment form">Services</h3>
+        <div class="examinations-container">
+          <md2-tags [md2-tags]="services"
+                    md2-tag-text="name"
+                    [(ngModel)]="model.services"
+                    placeholder="Add Service"
+                    name="services">
+          </md2-tags>
+        </div>
+
+        <h3 i18n="Section header for appointment form">Details</h3>
+
+        <!-- Duration input -->
+        <div>
+          <md-input-container class="duration-input">
+            <input mdInput [formControl]="durationControl" [(ngModel)]="model.duration" placeholder="Duration" i18n-placeholder required="true" name="duration" pattern="^[0-9]+H[0-9]+M|[0-9]+[M|H]$">
+            <md-hint align="end" i18n class="example-input-hint">e.g.: 30M, 1H, 1H40M etc.</md-hint>
+          </md-input-container>
+        </div>
+
+        <!-- Date and time input -->
+        <div>
+          <md2-datepicker [(ngModel)]="model.date" type="date" name="date" required="true" i18n-placeholder placeholder="Date"></md2-datepicker>
+          <md2-datepicker [(ngModel)]="model.time" type="time" name="time" required="true" i18n-placeholder placeholder="Time"></md2-datepicker>
+        </div>
+
+        <!-- Title input -->
+        <div>
+          <md-input-container class="title-input">
+            <input mdInput #title [(ngModel)]="model.title" placeholder="Title" i18n-placeholder maxlength="20" name="title">
+            <md-hint align="end">{{title.value.length}} / 20</md-hint>
+          </md-input-container>
+        </div>
+
+        <!-- Description input -->
+        <div style="padding-bottom: 24px;">
+          <md-input-container class="description-input-container">
+            <textarea mdInput #description [(ngModel)]="model.description" placeholder="Description" i18n-placeholder maxlength="100" name="description" class="description-textarea">
+            </textarea>
+            <md-hint align="end">{{description.value.length}} / 100</md-hint>
+          </md-input-container>
+        </div>
+
+        <!-- Provider select -->
+        <div>
+          <md-select placeholder="Hairstylists" i18n-placeholder [(ngModel)]="model.provider" name="provider" required="true" class="room-select">
+            <md-option *ngFor="let r of providers" [value]="r">
+              {{r?.name}}
+            </md-option>
+          </md-select>
+        </div>
+
+      </md-card-content>
+      <md-card-actions align="end">
+        <button [disabled]="!appointmentForm.form.valid" md-button type="submit" i18n>SAVE &amp; CHECK IN</button>
+      </md-card-actions>
+    </md-card>
+  </form>
+
+</div>

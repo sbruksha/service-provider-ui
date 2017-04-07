@@ -1,0 +1,61 @@
+@import '~@angular/material/core/theming/theming';
+@import 'app.theme';
+@import '~ng2-slim-loading-bar/bundles/style';
+
+md-sidenav-container, .my-content {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.mat-toolbar {
+  position: fixed;
+  z-index: 9999;
+}
+
+.my-content {
+  overflow: auto;
+}
+
+.mat-fab.example-fab {
+  position: absolute;
+  right: 20px;
+  bottom: 10px;
+  z-index: 9999;
+}
+
+.toolbar-placeholder-fix {
+  height: 64px;
+}
+
+.slim-loading-bar {
+  position: absolute;
+  top: 64px;
+  z-index: 9999;
+  width: 100%;
+}
+
+@media (max-width: 600px) {
+  .toolbar-placeholder-fix {
+    height: 54px;
+  }
+
+  .slim-loading-bar {
+    top: 56px;
+  }
+}
+
+@media (max-width: 960px) and (orientation: landscape) {
+  .toolbar-placeholder-fix {
+    height: 48px;
+  }
+
+  .slim-loading-bar {
+    top: 48px;
+  }
+}
+
+.md-toolbar-fill-remaining-space {
+  flex: 1 1 auto;
+}

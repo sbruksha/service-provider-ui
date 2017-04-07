@@ -1,0 +1,40 @@
+<div class="card-centered-wrapper">
+  <form (ngSubmit)="f.form.valid && login()" #f="ngForm" class="ui form">
+    <md-card class="card-centered-600">
+      <md-card-title i18n>Become a Trusted EVVEMI Stylist</md-card-title>
+      <md-card-content>
+        <div>
+          <md-input-container class="title-input">
+            <input mdInput #company="ngModel" required [(ngModel)]="model.company" placeholder="Company Name" i18n-placeholder maxlength="100" name="company">
+          </md-input-container>
+        </div>
+        <div>
+        <md-input-container class="title-input">
+          <input mdInput type="email" #username="ngModel" required [(ngModel)]="model.username" placeholder="Email" i18n-placeholder maxlength="100" name="username">
+        </md-input-container>
+        </div>
+        <div>
+        <md-input-container class="title-input">
+          <input mdInput type="password" #password="ngModel" required [(ngModel)]="model.password" placeholder="Password" i18n-placeholder maxlength="100" name="password">
+        </md-input-container>
+        </div>
+        <div>
+          <md-input-container class="title-input">
+            <input mdInput #website="ngModel" [(ngModel)]="model.website" placeholder="Website" i18n-placeholder maxlength="100" name="website">
+          </md-input-container>
+        </div>
+        <div>
+          <md-input-container class="title-input">
+            <input mdInput #phone="ngModel" [(ngModel)]="model.phone" placeholder="Phone" i18n-placeholder maxlength="100" name="phone">
+          </md-input-container>
+        </div>
+        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+      </md-card-content>
+      <md-card-actions align="end">
+        <button [disabled]="!f.form.valid" md-button type="submit" i18n>SUBMIT</button>
+
+      </md-card-actions>
+    </md-card>
+  </form>
+</div>

@@ -1,0 +1,138 @@
+<div #fml class="card-centered-wrapper">
+
+  <md-card *ngIf="!editing" class="card-centered-600">
+    <md-card-title>
+      {{model?.client?.givenName}} {{model?.client?.surname}}
+      <button *ngIf="model.client" md-icon-button [routerLink]="['/appointment/client', model.client.id]"
+              mdTooltip="Go to client" i18n-mdTooltip mdTooltipPosition="after" mdTooltipShowDelay="500">
+        <md-icon class="md-24">person</md-icon>
+      </button>
+    </md-card-title>
+    <md-card-subtitle *ngIf="model.title">{{model.title}}</md-card-subtitle>
+    <md-card-content>
+      <p>{{model?.provider?.name}}</p>
+      <p i18n>On {{model.date}} at {{model.time}}</p>
+      <p>{{formatDuration(model.duration)}}</p>
+      <ul>
+        <li *ngFor="let e of model.services"><span *ngIf="e.name==model.title">{{e.name}}</span></li>
+      </ul>
+      <p>{{model.description}}</p>
+    </md-card-content>
+    <md-card-actions align="end">
+      <button md-button (click)="handleEditClick()" i18n>EDIT</button>
+    </md-card-actions>
+  </md-card>
+
+  <form *ngIf="editing" (ngSubmit)="onSubmit()" #appointmentForm="ngForm" (change)="onFormChange()" class="ui form">
+    <md-card class="card-centered-600">
+    <md-card-title *ngIf="!model.id" i18n>New Appointment</md-card-title>
+    <md-card-title *ngIf="model.id" i18n>Update Appointment</md-card-title>
+      <md-card-content>
+
+      <h3 i18n="Section header for appointment form">Client</h3>
+       <div>
+          <md-input-container class="patient-input">
+             <input type="text" mdInput [formControl]="patientControl" [mdAutocomplete]="patientAuto" [(ngModel)]="model.client" required="true" name="client" i18n-placeholder placeholder="Client">
+          </md-input-container>
+          <md-autocomplete #patientAuto="mdAutocomplete" [displayWith]="patientDisplayFn">
+            <md-option *ngFor="let client of filteredPatients | async" [value]="client">
+              {{ client?.givenName }}  {{ client?.surname }} ({{ client?.dateOfBirth | amDateFormat:'l' }})
+            </md-option>
+          </md-autocomplete>
+        </div>
+
+        <h3 i18n="Section header for appointment form">Services</h3>
+        <div class="examinations-container">
+          <md2-tags [md2-tags]="services"
+                    md2-tag-text="name"
+                    [(ngModel)]="model.services"
+                    placeholder="Add Service"
+                    name="services">
+          </md2-tags>
+        </div>
+
+        <h3 i18n="Section header for appointment form">Details</h3>
+
+        <!-- Duration input -->
+        <div>
+          <md-input-container class="duration-input">
+            <input mdInput [formControl]="durationControl" [(ngModel)]="model.duration" placeholder="Duration" i18n-placeholder required="true" name="duration" pattern="^[0-9]+H[0-9]+M|[0-9]+[M|H]$">
+            <md-hint align="end" i18n class="example-input-hint">e.g.: 30M, 1H, 1H40M etc.</md-hint>
+          </md-input-container>
+        </div>
+
+        <!-- Date and time input -->
+        <div class="datetime-input">
+          <md2-datepicker [(ngModel)]="model.date" type="date" name="date" required="true" placeholder="Date" i18n-placeholder></md2-datepicker>
+          <md2-datepicker [(ngModel)]="model.time" type="time" name="time" required="true" placeholder="Time" i18n-placeholder></md2-datepicker>
+        </div>
+
+        <!-- Title input -->
+        <div>
+          <md-input-container class="title-input">
+            <input mdInput #title [(ngModel)]="model.title" placeholder="Title" i18n-placeholder maxlength="20" name="title">
+            <md-hint align="end">{{title.value.length}} / 20</md-hint>
+          </md-input-container>
+        </div>
+
+        <!-- Description input -->
+        <div style="padding-bottom: 24px;">
+          <md-input-container class="description-input-container">
+            <textarea mdInput #description [(ngModel)]="model.description" placeholder="Description" i18n-placeholder maxlength="100" name="description" class="description-textarea">
+            </textarea>
+            <md-hint align="end">{{description.value.length}} / 100</md-hint>
+          </md-input-container>
+        </div>
+
+        <!-- Room select -->
+        <div>
+          <md-select placeholder="Hairstylist" i18n-placeholder [(ngModel)]="model.provider" name="room" required="true" class="room-select">
+            <md-option *ngFor="let r of providers" [value]="r">
+              {{r?.name}}
+            </md-option>
+          </md-select>
+        </div>
+
+        <!-- Only on add, not on update for the time. -->
+        <div *ngIf="!this?.model?.id" class="section-reminders">
+          <md-slide-toggle [(ngModel)]="model.reminders" name="reminders" i18n="Section hedaer for appointment form">
+            Reminders
+          </md-slide-toggle>
+          <div *ngIf="model.reminders">
+            <div class="md-checkbox-div">
+              <md-checkbox [(ngModel)]="model.emailReminder" name="emailReminder" i18n>
+                Send email reminder <span *ngIf="model?.client?.email" class="label">({{model.client.email}})</span>
+              </md-checkbox>
+            </div>
+            <div>
+              <md-checkbox [(ngModel)]="model.smsReminder" name="smsReminder" i18n>
+                Send text message reminder <span *ngIf="model?.client?.phone" class="label">({{model.client.phone}})</span>
+              </md-checkbox>
+            </div>
+          </div>
+        </div>
+
+      </md-card-content>
+      <md-card-actions align="end">
+        <button [disabled]="!appointmentForm.form.valid" md-button type="submit" i18n>SAVE</button>
+      </md-card-actions>
+    </md-card>
+  </form>
+
+  <!-- Section title -->
+  <div *ngIf="proposedTimeSlots.length > 0" class="section-title" i18n>SUGGESTED TIME SLOTS</div>
+
+  <div *ngFor="let timeSlot of proposedTimeSlots">
+    <md-card class="card-centered-600">
+      <md-card-subtitle i18n="Date overview in suggested appoitment">In {{timeSlot.scheduledTasks.NewAppointment.schedule[0].start | amTimeAgo:true}}</md-card-subtitle>
+      <md-card-title>{{timeSlot.scheduledTasks.NewAppointment.schedule[0].start | date:'fullDate'}}</md-card-title>
+      <md-card-content>
+        <div i18n>{{timeSlot.scheduledTasks.NewAppointment.schedule[0].start | date:'shortTime'}}, {{timeSlot.scheduledTasks.NewAppointment.schedule[0].duration}} Minutes</div>
+        <div>{{getRoomNameById(timeSlot.scheduledTasks.NewAppointment.schedule[0].resources[0])}}</div>
+      </md-card-content>
+      <md-card-actions align="end">
+        <button md-button type="submit" (click)="applySuggestion(timeSlot.scheduledTasks.NewAppointment.schedule[0])" i18n>APPLY</button>
+      </md-card-actions>
+    </md-card>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<md-grid-list *ngIf="providers" [cols]="3" rowHeight="750px" gutterSize="32px">
+   <md-grid-tile *ngFor="let provider of providers" class="mat-elevation-z2">
+     <md-card>
+      <md-card-title>
+        {{ provider.name }}
+      </md-card-title>
+      <md-card-content>
+        <p-schedule
+        [header]="false"
+        [nowIndicator]="true"
+        defaultView="agendaDay"
+        [allDaySlot]="false"
+        [locale]="locale"
+        [minTime]=minTime
+        [maxTime]=maxTime
+        [events]="appointmentsByRoom[provider.id]"
+        [height]="700"
+        [locale]="locale"
+        timezone="local"
+        (onEventClick)="handleEventClick($event)">
+        </p-schedule>
+      </md-card-content>
+    </md-card>
+  </md-grid-tile>
+</md-grid-list>

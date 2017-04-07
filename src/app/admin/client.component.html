@@ -1,0 +1,62 @@
+<div class="card-centered-wrapper">
+  <form (ngSubmit)="f.form.valid && save()" #f="ngForm" class="ui form">
+    <md-card class="card-centered-600">
+      <md-card-title i18n>Add Client</md-card-title>
+      <md-card-content>
+        <div>
+          <md-input-container class="title-input">
+            <input mdInput #firstname="ngModel" required [(ngModel)]="model.givenName" placeholder="Firstname" i18n-placeholder maxlength="100" name="firstname">
+          </md-input-container>
+        </div>
+        <div>
+          <md-input-container class="title-input">
+            <input mdInput #lastname="ngModel" required [(ngModel)]="model.surname" placeholder="Lastname" i18n-placeholder maxlength="100" name="lastname">
+          </md-input-container>
+        </div>
+        <div>
+          <md-input-container class="title-input">
+            <input mdInput type="email" #email="ngModel" required [(ngModel)]="model.email" placeholder="Email" i18n-placeholder maxlength="100" name="email">
+          </md-input-container>
+        </div>
+        <div>
+          <md-input-container class="title-input">
+            <input mdInput type="phone" #phone="ngModel" required [(ngModel)]="model.phone" placeholder="Phone" i18n-placeholder maxlength="15" name="phone">
+          </md-input-container>
+        </div>
+        <div>
+          <md-input-container class="title-input">
+            <input mdInput #streetAddress="ngModel" [(ngModel)]="model.streetAddress" placeholder="Address" i18n-placeholder maxlength="150" name="streetAddress">
+          </md-input-container>
+        </div>
+        <div>
+          <md-input-container class="city-input">
+            <input mdInput #city="ngModel" [(ngModel)]="model.city" placeholder="City" i18n-placeholder maxlength="100" name="city">
+          </md-input-container>
+          <md-input-container class="zip-input">
+            <input mdInput #zipCode="ngModel" [(ngModel)]="model.zipCode" placeholder="ZipCode" i18n-placeholder maxlength="5" name="zipCode">
+          </md-input-container>
+          <md-select placeholder="State" i18n-placeholder [(ngModel)]="model.province" name="province" required="false" class="room-select">
+            <md-option *ngFor="let r of provinces" [value]="r">
+              {{r?.name}}
+            </md-option>
+          </md-select>
+        </div>
+        <div>
+          <md-select placeholder="Gender" i18n-placeholder [(ngModel)]="model.gender" name="gender" required="false" class="room-select">
+            <md-option value="0"></md-option><md-option value="1">Male</md-option><md-option value="2">Female</md-option>
+          </md-select>
+        </div>
+        <div>
+          <md2-datepicker [(ngModel)]="model.dateOfBirth" type="date" name="dateOfBirth" required="true" placeholder="DOB" i18n-placeholder></md2-datepicker>
+        </div>
+
+        <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+      </md-card-content>
+      <md-card-actions align="end">
+        <button [disabled]="!f.form.valid" md-button type="button" (click)="save()" i18n>SAVE</button>
+
+      </md-card-actions>
+    </md-card>
+  </form>
+</div>

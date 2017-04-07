@@ -1,0 +1,17 @@
+export * from './appointment.service';
+import { AppointmentService } from './appointment.service';
+export * from './attendance.service';
+import { AttendanceService } from './attendance.service';
+export * from './auditLogEntry.service';
+import { AuditLogEntryService } from './auditLogEntry.service';
+export * from './service.service';
+import { ServiceService } from './service.service';
+export * from './mail.service';
+import { MailService } from './mail.service';
+export * from './notification.service';
+import { NotificationService } from './notification.service';
+export * from './client.service';
+import { ClientService } from './client.service';
+export * from './provider.service';
+import { ProviderService } from './provider.service';
+export const APIS = [AppointmentService, AttendanceService, AuditLogEntryService, ServiceService, MailService, NotificationService, ClientService, ProviderService];
