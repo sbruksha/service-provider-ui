@@ -17,7 +17,6 @@ export class AdminClientComponent implements OnInit {
 
   // View model for form
   public model: ClientViewModel = {
-    //id: undefined,
     givenName: undefined,
     surname: undefined,
     gender: undefined,
@@ -58,7 +57,7 @@ export class AdminClientComponent implements OnInit {
       .subscribe(
         (x) => {
           this.provinces = x;
-          if (x && x.length > 0) { // If we got rooms, use the first as default
+          if (x && x.length > 0) {
             this.model.province = x[0];
           }
         },
@@ -79,19 +78,19 @@ export class AdminClientComponent implements OnInit {
       phone: this.model.phone,
       dateOfBirth: new Date(this.model.dateOfBirth),
       svn: 0,
-      gender: this.model.gender?this.model.gender:"0",
+      gender: this.model.gender?this.model.gender:'0',
       country: 96,
       province: this.model.province.id
     };
     console.log(newClient);
-    //Add client
+    // Add client
     this.clientService.patientCreate(newClient)
       .subscribe(
         (x) => {
           this.slimLoadingBarService.complete();
 
           // Navigate back to schedule view
-          //this.router.navigateByUrl('appointment/attendance');
+          // this.router.navigateByUrl('appointment/attendance');
         },
         (e) => { console.log('onError: %o', e); },
         () => {
@@ -104,8 +103,8 @@ export class AdminClientComponent implements OnInit {
       );
   }
 }
+
 interface ClientViewModel {
-  //id: number;
   givenName: string;
   surname: string;
   gender: string;
