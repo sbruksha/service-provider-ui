@@ -25,6 +25,7 @@ import { ProviderService }        from '../api/api/provider.service';
 
 export class WalkInCheckInComponent implements OnInit {
 
+  public patientAuto: any;
   // Duration input
   public durationControl = new FormControl();
 

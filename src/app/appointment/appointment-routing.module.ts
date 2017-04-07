@@ -1,6 +1,5 @@
 import { NgModule }     from '@angular/core';
 import { RouterModule } from '@angular/router';
-
 import { AcceptOfferComponent }           from './accept-offer.component';
 import { AnonComponent }                  from './anon.component';
 import { AppointmentAttendanceComponent } from './attendance.component';
@@ -26,10 +25,10 @@ import { AuthGuard }                      from '../guards/index';
           { path: 'today', component: AppointmentTodayComponent, canActivate: [AuthGuard] },
           { path: 'accept/:secret', component: AcceptOfferComponent, canActivate: [AuthGuard] },
           { path: 'week', component: WeekComponent, canActivate: [AuthGuard] },
-          { path: 'walk-in-check-in', component: WalkInCheckInComponent, canActivate: [AuthGuard] },
+       { path: 'walk-in-check-in', component: WalkInCheckInComponent, canActivate: [AuthGuard] },
           { path: 'client/:id', component: ClientComponent, canActivate: [AuthGuard] },
-          { path: 'provider', component: AppointmentProvidersComponent, canActivate: [AuthGuard] },
-          { path: 'attendance', component: AppointmentAttendanceComponent, canActivate: [AuthGuard] },
+       { path: 'provider', component: AppointmentProvidersComponent, canActivate: [AuthGuard] },
+       { path: 'attendance', component: AppointmentAttendanceComponent, canActivate: [AuthGuard] },
           { path: 'statistics', component: StatisticsComponent, canActivate: [AuthGuard] },
           { path: 'videochat/:id', component: VideochatComponent },
           { path: 'anon', component: AnonComponent },
@@ -39,8 +38,7 @@ import { AuthGuard }                      from '../guards/index';
       }
     ])
   ],
-  exports: [
-    RouterModule
-  ]
+  exports: [ RouterModule ]
 })
+
 export class AppointmentRoutingModule { }

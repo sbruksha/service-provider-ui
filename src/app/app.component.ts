@@ -26,7 +26,7 @@ import { ProviderService }                from './api/api/provider.service';
 })
 
 export class AppComponent implements OnInit {
-
+  public url: string = 'https://twitter.com/AngularClass';
   public primaryAction: Action;
   public isSubPage = false;
   public title = 'Service Provider Prototype';

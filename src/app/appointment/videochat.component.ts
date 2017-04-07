@@ -17,14 +17,15 @@ export class VideochatComponent implements OnInit {
   public readyToSend: boolean = false;
   public yourStream: any;
 
-  constructor( private _state: AppState,
-              private router: Router,
-              private slimLoadingBarService: SlimLoadingBarService,
-              private appointmentService: AppointmentService,
-              private route: ActivatedRoute) {
+  constructor(
+    private _state: AppState,
+    private router: Router,
+    private slimLoadingBarService: SlimLoadingBarService,
+    private appointmentService: AppointmentService,
+    private route: ActivatedRoute) {
   }
 
-  public ngOnInit():void {
+  public ngOnInit(): void {
     // Mouseflow integration
     if ((<any> window)._mfq) {
       (<any> window)._mfq.push(['newPageView', '/appointment/attendance']);
@@ -40,24 +41,24 @@ export class VideochatComponent implements OnInit {
     });
 
     // Retrieve video id
-    let param:string = this.route.snapshot.params['id'];
+    let param: string = this.route.snapshot.params['id'];
     this.initVideo(param);
   }
 
-  public initVideo(room:string) {
+  public initVideo(room: string) {
     if (true) {
 
       let socket = io.connect('https://eodessa-cti.herokuapp.com/');
 
-      socket.on('connect', function () {
+      socket.on('connect', () =>  {
         // Connected, let's sign-up for to receive messages for this room
-        socket.emit('room', {room_name: room});
+        socket.emit('room', { room_name: room });
 
         console.log('room ' + room);
 
-        let init = function () {
+        let init = () => {
           console.log('reinit');
-          getUserMedia({video: true, audio: false}, function (err, stream) {
+          getUserMedia({video: true, audio: false},  (err, stream) => {
             if (err) {
               return console.error(err);
             }
@@ -66,7 +67,7 @@ export class VideochatComponent implements OnInit {
 
             let peer = null;
             let user;
-            socket.on('init', function (initiator) {
+            socket.on('init', (initiator) => {
               console.log('init peer');
 
               // peer = (function () {
@@ -106,13 +107,13 @@ export class VideochatComponent implements OnInit {
               //   peer = null;
               //   init();
               // });
-              socket.on('reciveSignal', function (sig) {
+              socket.on('reciveSignal', (sig) => {
                 let other = ( user === 'user1' ) ? 'user2' : 'user1';
                 console.log('Connect to ' + other, sig);
                 // peer.signal(sig);
                 if (user === 'user1') {
 
-                  setTimeout(function () {
+                  setTimeout( () => {
                     this.readyToSend = true;
 
                   }, 200);

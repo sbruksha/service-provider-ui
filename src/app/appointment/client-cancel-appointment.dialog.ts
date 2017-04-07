@@ -13,4 +13,3 @@ import { MdDialogRef } from '@angular/material';
 export class ClientCancelAppointmentDialogComponent {
   constructor(public dialogRef: MdDialogRef<ClientCancelAppointmentDialogComponent>) {}
 }
-

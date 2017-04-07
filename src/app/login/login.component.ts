@@ -9,9 +9,9 @@ import { AuthenticationService }  from '../api/api/authentication.service';
 })
 
 export class LoginComponent implements OnInit {
-  model: any = {};
-  returnUrl: string;
-  error = '';
+  public model: any = {};
+  public returnUrl: string;
+  public error = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService,
     private slimLoadingBarService: SlimLoadingBarService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     // reset login status
     this.authenticationService.logout();
 
@@ -28,10 +28,10 @@ export class LoginComponent implements OnInit {
 
   }
 
-  login() {
+  public login() {
     this.slimLoadingBarService.start();
     this.authenticationService.login(this.model.username, this.model.password)
-      .subscribe(result => {
+      .subscribe((result)  => {
         if (result === true) {
           this.router.navigate([this.returnUrl]);
         } else {

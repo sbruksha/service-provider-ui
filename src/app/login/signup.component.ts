@@ -9,26 +9,26 @@ import { AuthenticationService } from '../api/api/authentication.service';
 })
 
 export class SignupComponent implements OnInit {
-  model: any = {};
-  loading = false;
-  error = '';
+  public model: any = {};
+  public loading = false;
+  public error = '';
 
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
     private slimLoadingBarService: SlimLoadingBarService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     // reset login status
     this.authenticationService.logout();
   }
 
-  login() {
+  public login() {
     this.slimLoadingBarService.start();
     this.authenticationService.login(this.model.username, this.model.password)
-      .subscribe(result => {
+      .subscribe((result) => {
         if (result === true) {
-          //this.router.navigate(['/']);
+          // this.router.navigate(['/']);
           // Navigate back to schedule view
           this.router.navigateByUrl('appointment/attendance');
         } else {

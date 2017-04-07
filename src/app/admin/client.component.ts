@@ -6,7 +6,7 @@ import { ProvinceService }        from '../api/api/province.service';
 import { Province }               from '../api/model/province';
 import { Country }                from '../api/model/country';
 import { Client }                 from '../api/model/client';
-import { ClientService}          from '../api/api/client.service';
+import { ClientService }           from '../api/api/client.service';
 
 @Component({
   templateUrl: './client.component.html',
@@ -30,7 +30,9 @@ export class AdminClientComponent implements OnInit {
     country: undefined,
     province: undefined,
   };
-  private provinces: Province[] = undefined;
+  public error: boolean = false;
+
+  public provinces: Province[] = undefined;
 
   constructor(
     private _state: AppState,
@@ -40,7 +42,7 @@ export class AdminClientComponent implements OnInit {
     private provinceService: ProvinceService,
     private clientService: ClientService) { }
 
-  ngOnInit() {
+  public ngOnInit() {
     // This is a sub-page
     this._state.isSubPage.next(true);
     this._state.title.next('Add New Client');
@@ -51,7 +53,7 @@ export class AdminClientComponent implements OnInit {
 
   }
 
-  getAllProvinces() {
+  public getAllProvinces() {
     this.provinceService
       .provinceFind()
       .subscribe(
@@ -66,7 +68,7 @@ export class AdminClientComponent implements OnInit {
       );
   }
 
-  public save(): void{
+  public save(): void {
     this.slimLoadingBarService.start();
     let newClient: Client  = {
       surname: this.model.surname,
@@ -78,7 +80,7 @@ export class AdminClientComponent implements OnInit {
       phone: this.model.phone,
       dateOfBirth: new Date(this.model.dateOfBirth),
       svn: 0,
-      gender: this.model.gender?this.model.gender:'0',
+      gender: this.model.gender ? this.model.gender : '0',
       country: 96,
       province: this.model.province.id
     };

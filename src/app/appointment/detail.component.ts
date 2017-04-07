@@ -42,7 +42,7 @@ export class AppointmentDetailComponent implements OnInit {
 
   // Examinations autocomplete/tag field
   private services: Service[] = [];
-
+  private patientAuto: boolean = false;
   private clients: Client[] = [];
   private filteredPatients: Observable<Client[]>;
   private filteredExaminations: Service[] = undefined;
@@ -153,7 +153,7 @@ export class AppointmentDetailComponent implements OnInit {
       createdBy: 0,
       clientId: this.model.client.id,
       providerId: this.model.provider.id,
-      services:this.model.services
+      services: this.model.services
     };
     let examinations: Service[] = this.model.services;
     let startDate = moment(this.model.date, 'l');
