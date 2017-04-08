@@ -1,6 +1,6 @@
 import { Component, OnInit }      from '@angular/core';
 import { AppState }               from '../app.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router }                 from '@angular/router';
 import { SlimLoadingBarService }  from 'ng2-slim-loading-bar';
 import { ProvinceService }        from '../api/api/province.service';
 import { Province }               from '../api/model/province';
@@ -10,7 +10,7 @@ import { ClientService }           from '../api/api/client.service';
 
 @Component({
   templateUrl: './client.component.html',
-  styleUrls: [ './client.component.scss' ]
+  styleUrls: [ './client.component.scss' ],
 })
 
 export class AdminClientComponent implements OnInit {
@@ -36,13 +36,13 @@ export class AdminClientComponent implements OnInit {
 
   constructor(
     private _state: AppState,
-    private route: ActivatedRoute,
     private router: Router,
     private slimLoadingBarService: SlimLoadingBarService,
     private provinceService: ProvinceService,
     private clientService: ClientService) { }
 
   public ngOnInit() {
+    console.log('AdminClient component');
     // This is a sub-page
     this._state.isSubPage.next(true);
     this._state.title.next('Add New Client');
@@ -52,22 +52,6 @@ export class AdminClientComponent implements OnInit {
     this.getAllProvinces();
 
   }
-
-  public getAllProvinces() {
-    this.provinceService
-      .provinceFind()
-      .subscribe(
-        (x) => {
-          this.provinces = x;
-          if (x && x.length > 0) {
-            this.model.province = x[0];
-          }
-        },
-        (e) => console.log(e),
-        () => console.log('Get all provinces complete.')
-      );
-  }
-
   public save(): void {
     this.slimLoadingBarService.start();
     let newClient: Client  = {
@@ -100,8 +84,22 @@ export class AdminClientComponent implements OnInit {
           console.log('Completed insert.');
 
           // Navigate back to schedule view
-          this.router.navigateByUrl('appointment');
+          this.router.navigate(['appointment']);
         }
+      );
+  }
+  private getAllProvinces() {
+    this.provinceService
+      .provinceFind()
+      .subscribe(
+        (x) => {
+          this.provinces = x;
+          if (x && x.length > 0) {
+            this.model.province = x[0];
+          }
+        },
+        (e) => console.log(e),
+        () => console.log('Get all provinces complete.')
       );
   }
 }

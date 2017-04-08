@@ -52,6 +52,7 @@
     "start:hmr": "npm run server:dev:hmr",
     "start": "npm run server:dev",
     "test": "npm run lint && karma start",
+    "integration": "npm run lint && karma start karma.integration.conf.js",
     "tslint": "tslint 'src/**/*.ts' --exclude 'src/app/api/**/*.ts'",
     "typedoc": "typedoc",
     "version": "npm run build",
